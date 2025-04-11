@@ -34,7 +34,7 @@ This portfolio is a reflection of my coding journey and professional identity â€
 
 ---
 
-## ðŸ“‚ Folder Structure
+## Preview
 
 ![preview img](/preview.png)
 
