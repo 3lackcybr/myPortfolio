@@ -559,7 +559,11 @@ body {
     width: 450px;
   }
 }
-
+#formResponse {
+  margin-top: 1rem;
+  font-weight: bold;
+  transition: opacity 0.5s ease;
+}
 
 /*===== BackUp Style =====*/
 /* Skills Section */

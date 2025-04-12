@@ -94,34 +94,51 @@ const sr = ScrollReveal({
     delay: 200,
 //     reset: true
 });
+/* Email Service Code*/
 
-document.getElementById('serviceForm').addEventListener('submit', function(e) {
-    e.preventDefault();
+// Load EmailJS SDK and initialize
+(function() {
+    emailjs.init("Yyv4eBzGGKL0DsTMZ"); // Replace with your actual User ID
     
-    const name = this.name.value;
-    const email = this.email.value;
-    const message = this.message.value;
-    
-    // Create mailto link
-    const subject = `Service request from ${name}`;
-    const body = `From: ${name} (${email})\n\n${message}`;
-    
-    // Open email client
-    window.location.href = `mailto:alphoncemrisi@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    
-    // Clear the form
-    this.reset();
-    
-    // Show confirmation message
-    const formResponse = document.getElementById('formResponse');
-    formResponse.textContent = "Thank you! Your message has been prepared in your email client.";
-    formResponse.style.color = "green";
-    
-    // Optional: Clear message after 5 seconds
-    setTimeout(() => {
-        formResponse.textContent = "";
-    }, 5000);
-});
+    document.getElementById('contact-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // This stops the page refresh
+        
+        const form = event.target;
+        const responseElement = document.getElementById('formResponse');
+        const submitButton = form.querySelector('button[type="submit"]');
+        const originalButtonText = submitButton.textContent;
+        
+        // Visual feedback
+        submitButton.textContent = 'Sending...';
+        submitButton.disabled = true;
+        responseElement.textContent = '';
+        responseElement.style.color = '';
+        
+        // Send form data
+        emailjs.sendForm('service_hu1t4vm', 'template_9hugzkl', form)
+            .then(function() {
+                responseElement.textContent = 'Message sent successfully!';
+                responseElement.style.color = 'green';
+                form.reset();
+
+                setTimeout(() => {
+                    responseElement.textContent = '';
+                }, 5000);
+            })
+            .catch(function(error) {
+                responseElement.textContent = 'Failed to send message. Please try again.';
+                responseElement.style.color = 'red';
+                console.error('EmailJS Error:', error);
+            })
+            .finally(function() {
+                submitButton.textContent = originalButtonText;
+                submitButton.disabled = false;
+            });
+        
+        // Explicitly return false to prevent any default behavior
+        return false;
+    });
+})();
 
 sr.reveal('.home__data, .about__img, .skills__subtitle, .skills__text',{}); 
 sr.reveal('.home__img, .about__subtitle, .about__text, .skills__img',{delay: 400}); 
